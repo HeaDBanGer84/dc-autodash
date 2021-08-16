@@ -20,9 +20,11 @@ services:
       dockerfile: Dockerfile
     image: headbanger84/dc-autodash
     volumes:
-      # - .:/usr/app
+      # - .:/usr/src/app/
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /usr/src/app/
+    command: "npm run start"
     labels:
       - "traefik.http.routers.dash.rule=Host(`dash.docker.localhost`)"
       - "dash.icon.color=#AA0000"

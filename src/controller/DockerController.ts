@@ -11,12 +11,12 @@ export class DockerController {
     private containerRepository = getRepository(DockerContainer)
 
 
-    import() {
-        this.docker.listContainers(function (err, containers) {
+    async import() {
+        this.docker.listContainers(async function (err, containers) {
             let resp = []
             if (containers) {
                 let containerRepository = getRepository(DockerContainer)
-                containers.forEach(function (containerInfo) {
+                containers.forEach( async (containerInfo) => {
                     let dashEnabled = new String(containerInfo.Labels["dash.enabled"]).toLowerCase();
                     let composeService = containerInfo.Labels['com.docker.compose.service'];
                     console.log(composeService + ': ' + dashEnabled);
@@ -43,14 +43,13 @@ export class DockerController {
 
                         if (url != '') {
                             // insert new users for test
-                            containerRepository.save(
-                                {
-                                    "name": name,
-                                    "exposedUrl": url,
-                                    "icon": icon,
-                                    "color": color
-                                });
-
+                            let model = containerRepository.create()
+                            model.id = containerInfo.Id;
+                            model.name = name;
+                            model.exposedUrl = url;
+                            model.icon = icon;
+                            model.color = color;
+                            containerRepository.save(model)
                         }
                     }
                 });
