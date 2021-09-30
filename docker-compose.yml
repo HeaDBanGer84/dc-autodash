@@ -23,10 +23,12 @@ services:
       # - .:/usr/src/app/
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+    environment: 
+      - "HOST=dash.docker.localhost"
     working_dir: /usr/src/app/
-    command: "npm run start"
     labels:
       - "traefik.http.routers.dash.rule=Host(`dash.docker.localhost`)"
+      - "dash.enabled=true"
       - "dash.icon.color=#AA0000"
       - "dash.icon.fa=fas fa-th-large"
   whoami:
@@ -34,4 +36,5 @@ services:
     image: traefik/whoami
     labels:
       - "dash.enabled=true"
+      - "dash.icon.mi=public"
       - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"

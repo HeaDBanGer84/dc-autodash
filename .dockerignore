@@ -1,7 +1,11 @@
 .idea/
 .vscode/
 node_modules/
+frontend/node_modules
 build/
 tmp/
 temp/
-database.sqlite
+prisma/database.db*
+dist
+package-lock.json
+frontend/package-lock.json
